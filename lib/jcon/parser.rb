@@ -12,11 +12,11 @@ module JCON
       self.new(source).parse
     end
     
-    attr_reader :definitions
+    attr_reader :dictionary
 
     def initialize(source)
       super(source)
-      @definitions = Dictionary.new
+      @dictionary = Dictionary.new
     end
 
     def parse
@@ -31,14 +31,14 @@ module JCON
           parse_error
         end
       end
-      definitions
+      dictionary
     end
     
     def parse_deftype
       name = expect('identifier', IDENTIFIER)
       expect('=', /=/)
       type = parse_type
-      definitions.deftype(name.intern, type)
+      dictionary.deftype(name.intern, type)
       sscan(/;/)
     end
     
@@ -57,6 +57,11 @@ module JCON
              else
                parse_error
              end
+      type.context = dictionary
+      add_modifiers(type)
+    end
+    
+    def add_modifiers(type)
       while sscan(/[!?]/)
         case self[0]
         when '!'
@@ -64,6 +69,7 @@ module JCON
         when '?'
           type = optional(type)
         end
+        type.context = dictionary
       end
       type
     end

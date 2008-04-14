@@ -1,16 +1,13 @@
 Parser:
-* null
+* null (void?)
 * Any (*)
-* function(this:T | T | T= | ... | ...[T]) : T | void
 * can property name be string?
 
 Conformance:
 * Any = (null, undefined, Object)
-* byte, int, uint, double, decimal, Number
-* string, String
-* boolean, Boolean
+* byte
 
 Future:
+* function(this:T | T | T= | ... | ...[T]) : T | void
 * 'class'
 * js implementation
-

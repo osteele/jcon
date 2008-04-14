@@ -10,14 +10,16 @@ module JCON
     end
     
     class Type
+      attr_accessor :context
       def inspect; to_s; end
     end
     
     class SimpleType < Type
       attr_reader :name
-      def initialize(name)
+      def initialize(name, &block)
         name = name.intern if name.is_a?(String)
         @name = name
+        @test = block
       end
       
       def to_s; name.to_s; end
