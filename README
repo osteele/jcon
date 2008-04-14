@@ -1,0 +1,24 @@
+= JCon -- JavaScript Type Conformance Checking
+
+Test whether a parsed JSON type conforms to a type specification, read
+from a string or file that matches the proposed ECMAScript 4.0 type
+syntax.
+
+== Install
+
+  gem install rcon
+
+== Usage
+
+  type = JCON::parse "[string, int]"
+  type.contains?(['a', 1]) # => true
+  type.contains?(['a', 'b']) # => false
+  type.contains?(['a', 1, 2]) # => true
+  
+  type = JCON::parse "type S = (string, int); {a: [S], b: int}"
+  type.contains?({:a => [1, 'b'], :b => 2}) # => true
+
+== License
+
+Copyright 2008 by Oliver Steele.  All rights reserved.  Released under
+the MIT License.

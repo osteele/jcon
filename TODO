@@ -1,8 +1,11 @@
-Features:
+= JCon TODO
+
+Next:
+* docs
+* bare types
 * locate the failure
 
 Parser:
-* allow bare type
 * null (void?)
 * Any (*)
 * can property name be string?
