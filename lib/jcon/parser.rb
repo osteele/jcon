@@ -52,6 +52,8 @@ module JCON
              when sscan(/\(/)
                types = parse_types_until(/\)/)
                union(types)
+             when sscan(/\{/)
+               parse_structure_type
              else
                parse_error
              end
@@ -68,12 +70,25 @@ module JCON
     
     def parse_types_until(stop_pattern)
       types = []
-      until sscan(stop_pattern)
-        types << parse_type
+      while true
         break if sscan(stop_pattern)
-        expect('comma', /,/)
+        expect('comma', /,/) if types.any?
+        types << parse_type
       end
       types
+    end
+    
+    def parse_structure_type
+      map = {}
+      while true
+        break if sscan(/\}/)
+        expect('comma', /,/) if map.any?
+        name = expect('id', IDENTIFIER)
+        expect(':', /:/)
+        type = parse_type
+        map[name.intern] = type
+      end
+      StructureType.new(map)
     end
     
     def expect(name, pattern)

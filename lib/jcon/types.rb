@@ -36,26 +36,23 @@ module JCON
     
     class ListType < Type
       attr_reader :types
-      
-      def initialize(*types)
-        @types = Types.to_types(types)
-      end
-      
-      def to_s
-        "[#{types.join(', ')}]"
-      end
+      def initialize(*types); @types = Types.to_types(types); end
+      def to_s; "[#{types.join(', ')}]"; end
     end
     
     class UnionType < Type
       attr_reader :types
-      
-      def initialize(*types)
-        @types = Types.to_types(types)
+      def initialize(*types); @types = Types.to_types(types); end
+      def to_s; "(#{types.join(', ')})"; end
+    end
+    
+    class StructureType < Type
+      attr_reader :properties
+      def initialize(properties);
+        @properties = properties
       end
       
-      def to_s
-        "(#{types.join(', ')})"
-      end
+      def to_s; "{#{properties.map { |k,v| "#{k}: #{v}"}.join(', ')}}"; end
     end
     
     def simple_type(*args); SimpleType.new(*args); end
