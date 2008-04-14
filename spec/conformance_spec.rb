@@ -69,8 +69,6 @@ describe JCON do
       type.contains?(nil).should == false
     end
     
-    it "should test list types"
-    
     it "should test union types" do
       type = JCON::Parser.parse('type T = (string, boolean)').start
       type.contains?('s').should == true
@@ -79,7 +77,32 @@ describe JCON do
       type.contains?(nil).should == false
     end
     
-    it "should test structure types"
+    it "should test list types" do
+      type = JCON::Parser.parse('type T = [string, boolean]').start
+      type.contains?('s').should == false
+      type.contains?([]).should == false
+      type.contains?([1]).should == false
+      type.contains?([1,2]).should == false
+      type.contains?([1,2,3]).should == false
+      type.contains?(['s']).should == false
+      type.contains?(['s',2]).should == false
+      type.contains?([1,true]).should == false
+      type.contains?(['s',true]).should == true
+      type.contains?(['s',true,true]).should == true
+      type.contains?(['s',true,3]).should == false
+    end
+    
+    it "should test structure types" do
+      type = JCON::Parser.parse('type T = {a:int, b:string}').start
+      type.contains?('s').should == false
+      type.contains?({:a => 1}).should == false
+      type.contains?({:b => 's'}).should == false
+      type.contains?({:a => 1, :b => 's'}).should == true
+      type.contains?({:a => 's', :b => 's'}).should == false
+      type.contains?({:a => 1, :b => 2}).should == false
+      type.contains?({:a => 1, :b => 's', :c => false}).should == false
+    end
+    
     it "should test type null type"
   end
 end

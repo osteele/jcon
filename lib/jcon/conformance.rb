@@ -24,7 +24,12 @@ module JCON
     
     class ListType < Type
       def contains?(value)
-        raise "pending"
+        return false unless value.is_a?(Array)
+        return false unless value.length >= types.length
+        value.each_with_index do |x, i|
+          return false unless types[[i, types.length-1].min].contains?(x)
+        end
+        true
       end
     end
     
@@ -36,7 +41,16 @@ module JCON
     
     class StructureType < Type
       def contains?(value)
-        raise "pending"
+        return false unless value.is_a?(Hash)
+        value.each do |k, v|
+          type = properties[k]
+          return false unless type
+          return false unless type.contains?(v)
+        end
+        properties.each do |k, _|
+          return false unless value.include?(k)
+        end
+        true
       end
     end
   end
