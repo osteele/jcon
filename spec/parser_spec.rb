@@ -1,5 +1,4 @@
-$: << File.expand_path(File.dirname(__FILE__) + '/../lib')
-require File.expand_path(File.dirname(__FILE__) + '/../lib/jcon.rb')
+require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe JCON::Parser do
   describe :parse do
@@ -38,6 +37,14 @@ describe JCON::Parser do
     it "should parse an structure type" do
       type = JCON::Parser.parse('type T = {a:string?, b:int}')[:T]
       type.should be_an_instance_of(JCON::Types::StructureType)
+    end
+  end
+  
+  describe :read do
+    it "should return the first definition" do
+      type = JCON::Parser.parse('type T = string; type U = String;').start
+      type.should be_an_instance_of(JCON::Types::SimpleType)
+      type.name.should == :string
     end
   end
 end

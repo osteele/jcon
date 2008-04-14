@@ -11,7 +11,7 @@ module JCON
     def self.parse(source)
       self.new(source).parse
     end
-
+    
     attr_reader :definitions
 
     def initialize(source)

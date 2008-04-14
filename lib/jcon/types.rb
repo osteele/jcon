@@ -14,12 +14,13 @@ module JCON
     end
     
     class SimpleType < Type
+      attr_reader :name
       def initialize(name)
         name = name.intern if name.is_a?(String)
         @name = name
       end
       
-      def to_s; @name.to_s; end
+      def to_s; name.to_s; end
     end
     
     class OptionalType < Type
