@@ -57,11 +57,29 @@ describe JCON do
       type.contains?(nil).should == false
     end
     
-#     it "should test union types"
-#     it "should test list types"
-#     it "should test structure types"
-#     it "should test required types"
-#     it "should test optional types"
-#     it "should test null types"
+    it "should test optional types" do
+      type = JCON::Parser.parse('type T = int?').start
+      type.contains?(1).should == true
+      type.contains?(nil).should == true
+    end
+    
+    it "should test required types" do
+      type = JCON::Parser.parse('type T = Number!').start
+      type.contains?(1).should == true
+      type.contains?(nil).should == false
+    end
+    
+    it "should test list types"
+    
+    it "should test union types" do
+      type = JCON::Parser.parse('type T = (string, boolean)').start
+      type.contains?('s').should == true
+      type.contains?(true).should == true
+      type.contains?(1).should == false
+      type.contains?(nil).should == false
+    end
+    
+    it "should test structure types"
+    it "should test type null type"
   end
 end

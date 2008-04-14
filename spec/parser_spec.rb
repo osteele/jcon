@@ -17,11 +17,17 @@ describe JCON::Parser do
     it "should parse a union type" do
       type = JCON::Parser.parse('type T = (string, String)')[:T]
       type.should be_an_instance_of(JCON::Types::UnionType)
+      type.types.length.should == 2
+      type.types[0].name.should == :string
+      type.types[1].name.should == :String
     end
     
     it "should parse a list type" do
       type = JCON::Parser.parse('type T = [string, String]')[:T]
       type.should be_an_instance_of(JCON::Types::ListType)
+      type.types.length.should == 2
+      type.types[0].name.should == :string
+      type.types[1].name.should == :String
     end
     
     it "should parse a required type" do

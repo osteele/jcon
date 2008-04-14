@@ -1,13 +1,16 @@
 Parser:
+* allow bare type
 * null (void?)
 * Any (*)
 * can property name be string?
 
 Conformance:
 * Any = (null, undefined, Object)
+* Object, RegExp, others?
 * byte
 
 Future:
 * function(this:T | T | T= | ... | ...[T]) : T | void
 * 'class'
 * js implementation
+* includes

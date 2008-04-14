@@ -48,10 +48,10 @@ module JCON
                simple_type(id)
              when sscan(/\[/)
                types = parse_types_until(/\]/)
-               list(types)
+               list(*types)
              when sscan(/\(/)
                types = parse_types_until(/\)/)
-               union(types)
+               union(*types)
              when sscan(/\{/)
                parse_structure_type
              else
