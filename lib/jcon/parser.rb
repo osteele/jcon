@@ -39,18 +39,31 @@ module JCON
       expect('=', /=/)
       type = parse_type
       definitions.deftype(name.intern, type)
+      sscan(/;/)
     end
     
     def parse_type
-      case
-      when id = sscan(IDENTIFIER)
-        return simple_type(id)
-      when sscan(/\(/)
-        types = parse_types_until(/\)/)
-        return union(types)
-      else
-        parse_error
-      end        
+      type = case
+             when id = sscan(IDENTIFIER)
+               simple_type(id)
+             when sscan(/\[/)
+               types = parse_types_until(/\]/)
+               list(types)
+             when sscan(/\(/)
+               types = parse_types_until(/\)/)
+               union(types)
+             else
+               parse_error
+             end
+      while sscan(/[!?]/)
+        case self[0]
+        when '!'
+          type = required(type)
+        when '?'
+          type = optional(type)
+        end
+      end
+      type
     end
     
     def parse_types_until(stop_pattern)

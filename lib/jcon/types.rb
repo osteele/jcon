@@ -23,12 +23,27 @@ module JCON
     end
     
     class OptionalType < Type
+      attr_reader :type
+      def initialize(type); @type = type; end
+      def to_s; "#{type}?"; end
     end
     
     class RequiredType < Type
+      attr_reader :type
+      def initialize(type); @type = type; end
+      def to_s; "#{type}!"; end
     end
     
     class ListType < Type
+      attr_reader :types
+      
+      def initialize(*types)
+        @types = Types.to_types(types)
+      end
+      
+      def to_s
+        "[#{types.join(', ')}]"
+      end
     end
     
     class UnionType < Type
@@ -44,6 +59,9 @@ module JCON
     end
     
     def simple_type(*args); SimpleType.new(*args); end
+    def required(*args); RequiredType.new(*args); end
+    def optional(*args); OptionalType.new(*args); end
+    def list(*args); ListType.new(*args); end
     def union(*args); UnionType.new(*args); end
   end
 end

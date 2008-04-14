@@ -4,14 +4,37 @@ require File.expand_path(File.dirname(__FILE__) + '/../lib/jcon.rb')
 describe JCON::Parser do
   describe :parse do
     it "should parse a basic type definition" do
-      dict = JCON::Parser.parse('type S = string')
-      type = dict[:S]
+      dict = JCON::Parser.parse('type T = string')
+      type = dict[:T]
       type.should be_an_instance_of(JCON::Types::SimpleType)
     end
     
-    it "should parse a basic type definition" do
-      type = JCON::Parser.parse('type S = (string, String)')[:S]
+    it "should parse two type definitions" do
+      dict = JCON::Parser.parse('type T = string; type U = String;')
+      dict[:U].should be_an_instance_of(JCON::Types::SimpleType)
+      dict[:T].should be_an_instance_of(JCON::Types::SimpleType)
+    end
+    
+    it "should parse a union type" do
+      type = JCON::Parser.parse('type T = (string, String)')[:T]
       type.should be_an_instance_of(JCON::Types::UnionType)
     end
+    
+    it "should parse a list type" do
+      type = JCON::Parser.parse('type T = [string, String]')[:T]
+      type.should be_an_instance_of(JCON::Types::ListType)
+    end
+    
+    it "should parse a required type" do
+      type = JCON::Parser.parse('type T = string!')[:T]
+      type.should be_an_instance_of(JCON::Types::RequiredType)
+    end
+    
+    it "should parse an optional type" do
+      type = JCON::Parser.parse('type T = string?')[:T]
+      type.should be_an_instance_of(JCON::Types::OptionalType)
+    end
+    
+    it "should parse an structure type"
   end
 end
