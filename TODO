@@ -2,7 +2,6 @@
 
 Next:
 * docs
-* bare types
 * locate the failure
 * rename SimpleType
 * test cases for recursive types

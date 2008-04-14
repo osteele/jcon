@@ -7,9 +7,39 @@ describe JCON::Parser do
       type.should be_an_instance_of(JCON::Types::SimpleType)
     end
     
+    it "should parse a union type" do
+      type = JCON::Parser.parse('(string, String)').start
+      type.should be_an_instance_of(JCON::Types::UnionType)
+      type.types.length.should == 2
+      type.types[0].name.should == :string
+      type.types[1].name.should == :String
+    end
+    
+    it "should parse a list type" do
+      type = JCON::Parser.parse('[string, String]').start
+      type.should be_an_instance_of(JCON::Types::ListType)
+      type.types.length.should == 2
+      type.types[0].name.should == :string
+      type.types[1].name.should == :String
+    end
+    
+    it "should parse a required type" do
+      type = JCON::Parser.parse('string!').start
+      type.should be_an_instance_of(JCON::Types::RequiredType)
+    end
+    
+    it "should parse an optional type" do
+      type = JCON::Parser.parse('type T = string?')[:T]
+      type.should be_an_instance_of(JCON::Types::OptionalType)
+    end
+    
+    it "should parse a structure type" do
+      type = JCON::Parser.parse('type T = {a:string?, b:int}')[:T]
+      type.should be_an_instance_of(JCON::Types::StructureType)
+    end
+    
     it "should parse a basic type definition" do
-      type = JCON::Parser.parse('type T = string')[:t]
-      p type
+      type = JCON::Parser.parse('type T = string')[:T]
       type.should be_an_instance_of(JCON::Types::SimpleType)
     end
     
@@ -19,35 +49,12 @@ describe JCON::Parser do
       dict[:T].should be_an_instance_of(JCON::Types::SimpleType)
     end
     
-    it "should parse a union type" do
+    it "should parse a union type definition" do
       type = JCON::Parser.parse('type T = (string, String)')[:T]
       type.should be_an_instance_of(JCON::Types::UnionType)
       type.types.length.should == 2
       type.types[0].name.should == :string
       type.types[1].name.should == :String
-    end
-    
-    it "should parse a list type" do
-      type = JCON::Parser.parse('type T = [string, String]')[:T]
-      type.should be_an_instance_of(JCON::Types::ListType)
-      type.types.length.should == 2
-      type.types[0].name.should == :string
-      type.types[1].name.should == :String
-    end
-    
-    it "should parse a required type" do
-      type = JCON::Parser.parse('type T = string!')[:T]
-      type.should be_an_instance_of(JCON::Types::RequiredType)
-    end
-    
-    it "should parse an optional type" do
-      type = JCON::Parser.parse('type T = string?')[:T]
-      type.should be_an_instance_of(JCON::Types::OptionalType)
-    end
-    
-    it "should parse an structure type" do
-      type = JCON::Parser.parse('type T = {a:string?, b:int}')[:T]
-      type.should be_an_instance_of(JCON::Types::StructureType)
     end
   end
   

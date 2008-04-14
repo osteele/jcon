@@ -3,13 +3,13 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe JCON do
   describe :conforms? do
     it "should test boolean types" do
-      type = JCON::Parser.parse('type T = boolean').start
+      type = JCON::parse('boolean')
       type.contains?(false).should == true
       type.contains?(true).should == true
       type.contains?('s').should == false
       type.contains?(nil).should == false
       
-      type = JCON::Parser.parse('type T = Boolean').start
+      type = JCON::parse('Boolean')
       type.contains?(false).should == true
       type.contains?(true).should == true
       type.contains?('s').should == false
@@ -17,60 +17,60 @@ describe JCON do
     end
     
     it "should test string types" do
-      type = JCON::Parser.parse('type T = string').start
+      type = JCON::parse('string')
       type.contains?(1).should == false
       type.contains?('s').should == true
       type.contains?(nil).should == false
       
-      type = JCON::Parser.parse('type T = String').start
+      type = JCON::parse('String')
       type.contains?(1).should == false
       type.contains?('s').should == true
       type.contains?(nil).should == true
     end
     
     it "should test numeric types" do
-      type = JCON::Parser.parse('type T = Number').start
+      type = JCON::parse('Number')
       type.contains?(1).should == true
       type.contains?('s').should == false
       type.contains?(nil).should == true
       
-      type = JCON::Parser.parse('type T = int').start
+      type = JCON::parse('int')
       type.contains?(1).should == true
       type.contains?(1.5).should == false
       type.contains?('s').should == false
       type.contains?(nil).should == false
       
-      type = JCON::Parser.parse('type T = uint').start
+      type = JCON::parse('uint')
       type.contains?(1).should == true
       type.contains?(1.5).should == false
       type.contains?(-1).should == false
       type.contains?(nil).should == false
       
-      type = JCON::Parser.parse('type T = double').start
+      type = JCON::parse('double')
       type.contains?(1).should == true
       type.contains?(1.5).should == true
       type.contains?(nil).should == false
       
-      type = JCON::Parser.parse('type T = decimal').start
+      type = JCON::parse('decimal')
       type.contains?(1).should == true
       type.contains?(1.5).should == true
       type.contains?(nil).should == false
     end
     
     it "should test optional types" do
-      type = JCON::Parser.parse('type T = int?').start
+      type = JCON::parse('int?')
       type.contains?(1).should == true
       type.contains?(nil).should == true
     end
     
     it "should test required types" do
-      type = JCON::Parser.parse('type T = Number!').start
+      type = JCON::parse('Number!')
       type.contains?(1).should == true
       type.contains?(nil).should == false
     end
     
     it "should test union types" do
-      type = JCON::Parser.parse('type T = (string, boolean)').start
+      type = JCON::parse('(string, boolean)')
       type.contains?('s').should == true
       type.contains?(true).should == true
       type.contains?(1).should == false
@@ -78,7 +78,7 @@ describe JCON do
     end
     
     it "should test list types" do
-      type = JCON::Parser.parse('type T = [string, boolean]').start
+      type = JCON::parse('[string, boolean]')
       type.contains?('s').should == false
       type.contains?([]).should == false
       type.contains?([1]).should == false
@@ -93,7 +93,7 @@ describe JCON do
     end
     
     it "should test structure types" do
-      type = JCON::Parser.parse('type T = {a:int, b:string}').start
+      type = JCON::parse('{a:int, b:string}')
       type.contains?('s').should == false
       type.contains?({:a => 1}).should == false
       type.contains?({:b => 's'}).should == false

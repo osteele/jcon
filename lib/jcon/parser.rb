@@ -2,7 +2,7 @@ require 'strscan'
 
 module JCON
   def self.parse(source)
-    Parser.parse(source).first
+    Parser.parse(source).start
   end
   
   class Parser < StringScanner
@@ -32,9 +32,9 @@ module JCON
         when skip(IGNORE)
           ;
         else
-#           type = parse_type
-#           dictionary.start = type
-#           while skip(WS) || skip(IGNORE); end
+          type = parse_type
+          dictionary.start = type
+          while skip(WS) || skip(IGNORE); end
           parse_error "expected end of input" unless eos?  
         end
       end
