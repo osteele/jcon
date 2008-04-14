@@ -2,21 +2,22 @@ require 'strscan'
 
 module JCON
   class Parser < StringScanner
-    IDENTIFIER = /[\w_$][\w\d_$]*/
+    include Types
+    
     WS = /[\s]/
     IGNORE = %r{//.*|/\*[.\r\n]*?\*/}
+    IDENTIFIER = /[\w_$][\w\d_$]*/
 
     def self.parse(source)
       self.new(source).parse
     end
 
-    
+    attr_reader :definitions
+
     def initialize(source)
       super(source)
-      @definitions = TypeCollection.new
+      @definitions = Dictionary.new
     end
-
-    attr_reader :definitions
 
     def parse
       reset
@@ -43,10 +44,23 @@ module JCON
     def parse_type
       case
       when id = sscan(IDENTIFIER)
-        return id
+        return simple_type(id)
+      when sscan(/\(/)
+        types = parse_types_until(/\)/)
+        return union(types)
       else
         parse_error
       end        
+    end
+    
+    def parse_types_until(stop_pattern)
+      types = []
+      until sscan(stop_pattern)
+        types << parse_type
+        break if sscan(stop_pattern)
+        expect('comma', /,/)
+      end
+      types
     end
     
     def expect(name, pattern)
