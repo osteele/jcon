@@ -4,7 +4,8 @@ module JCON
   class Dictionary
     include Types
     
-    attr_reader :start, :parent
+    attr_reader :parent
+    attr_accessor :start
     
     def initialize(parent=BUILTINS)
       @parent = parent

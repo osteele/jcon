@@ -2,9 +2,14 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe JCON::Parser do
   describe :parse do
+    it "should parse a bare type" do
+      type = JCON::Parser.parse('string').start
+      type.should be_an_instance_of(JCON::Types::SimpleType)
+    end
+    
     it "should parse a basic type definition" do
-      dict = JCON::Parser.parse('type T = string')
-      type = dict[:T]
+      type = JCON::Parser.parse('type T = string')[:t]
+      p type
       type.should be_an_instance_of(JCON::Types::SimpleType)
     end
     
@@ -46,7 +51,7 @@ describe JCON::Parser do
     end
   end
   
-  describe :read do
+  describe :start do
     it "should return the first definition" do
       type = JCON::Parser.parse('type T = string; type U = String;').start
       type.should be_an_instance_of(JCON::Types::SimpleType)

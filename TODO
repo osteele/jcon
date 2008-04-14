@@ -4,6 +4,13 @@ Next:
 * docs
 * bare types
 * locate the failure
+* rename SimpleType
+* test cases for recursive types
+* detect circular references
+
+Test cases:
+* comments
+* parse errors
 
 Parser:
 * null (void?)

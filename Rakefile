@@ -27,3 +27,7 @@ desc "Really a replacement for echoe's 'install', which bombs on my machine"
 task :reinstall => [:clean, :package, :uninstall] do
   system "sudo gem install pkg/*.gem"
 end
+
+task :spec do
+  system "spec spec"
+end
