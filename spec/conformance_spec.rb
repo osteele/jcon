@@ -57,6 +57,36 @@ describe JCON do
       type.contains?(nil).should == false
     end
     
+    it "should test object types" do
+      type = JCON::parse('Object')
+      type.contains?(1).should == true
+      type.contains?('s').should == true
+      type.contains?([]).should == true
+      type.contains?({}).should == true
+      type.contains?(nil).should == true
+      
+      type = JCON::parse('Array')
+      type.contains?(1).should == false
+      type.contains?('s').should == false
+      type.contains?([]).should == true
+      type.contains?({}).should == false
+      type.contains?(nil).should == true
+      
+      type = JCON::parse('Date')
+      type.contains?(1).should == false
+      type.contains?('s').should == false
+      type.contains?(Date.new).should == true
+      type.contains?({}).should == false
+      type.contains?(nil).should == true
+      
+      type = JCON::parse('RegExp')
+      type.contains?(1).should == false
+      type.contains?('s').should == false
+      type.contains?(/s/).should == true
+      type.contains?({}).should == false
+      type.contains?(nil).should == true
+    end
+    
     it "should test optional types" do
       type = JCON::parse('int?')
       type.contains?(1).should == true
@@ -64,6 +94,10 @@ describe JCON do
     end
     
     it "should test required types" do
+      type = JCON::parse('Object!')
+      type.contains?(1).should == true
+      type.contains?(nil).should == false
+      
       type = JCON::parse('Number!')
       type.contains?(1).should == true
       type.contains?(nil).should == false
@@ -103,6 +137,12 @@ describe JCON do
       type.contains?({:a => 1, :b => 's', :c => false}).should == false
     end
     
-    it "should test type null type"
+    it "should test null type"
+    it "should test type definitions"
+    
+    it "should test unknown types" do
+      type = JCON::parse('S')
+      lambda { type.contains?('s') }.should raise_error('No definition for S')
+    end
   end
 end

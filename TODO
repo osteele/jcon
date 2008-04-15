@@ -12,13 +12,14 @@ Test cases:
 * parse errors
 
 Parser:
+* semicolons in more positions
+* comments in more positions
 * null (void?)
 * Any (*)
 * can property name be string?
 
 Conformance:
 * Any = (null, undefined, Object)
-* Object, RegExp, others?
 * byte
 
 Future:

@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'echoe'
+require 'spec/rake/spectask'
 
 PKG_VERSION = '0.1'
 
@@ -28,6 +29,12 @@ task :reinstall => [:clean, :package, :uninstall] do
   system "sudo gem install pkg/*.gem"
 end
 
-task :spec do
-  system "spec spec"
+desc "Run all specs"
+Spec::Rake::SpecTask.new do |t|
+  t.spec_files = FileList['spec/*_spec.rb']
+  if ENV['RCOV']
+    t.rcov = true
+    t.rcov_dir = '../doc/output/coverage'
+    t.rcov_opts = ['--exclude', 'spec\/spec']
+  end
 end
