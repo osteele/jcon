@@ -6,6 +6,10 @@ Next:
 * rename SimpleType
 * detect circular references
 
+Error detection:
+* circular references
+* duplicate definitions
+
 Test cases:
 * recursive types
 * parse errors

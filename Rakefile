@@ -12,7 +12,7 @@ Echoe.new('jcon', PKG_VERSION) do |p|
 EOF
   p.author         = 'Oliver Steele'
   p.email          = 'steele@osteele.com'
-  p.ignore_pattern = /^(.git|.*\.swf|.*#.*#)$/
+  p.ignore_pattern = /^(.git|.*#.*#)$/
   p.test_pattern   = 'test/*_test.rb'
   p.rdoc_pattern   = /^(lib|bin|tasks|ext)|^README|^CHANGES|^TODO|^LICENSE$/
   p.eval = proc do |s|
@@ -34,7 +34,6 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/*_spec.rb']
   if ENV['RCOV']
     t.rcov = true
-    t.rcov_dir = '../doc/output/coverage'
     t.rcov_opts = ['--exclude', 'spec\/spec']
   end
 end
