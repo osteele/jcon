@@ -43,12 +43,12 @@ module JCON
       def contains?(value)
         return false unless value.is_a?(Hash)
         value.each do |k, v|
-          type = properties[k]
+          type = properties["#{k}".intern]
           return false unless type
           return false unless type.contains?(v)
         end
         properties.each do |k, _|
-          return false unless value.include?(k)
+          return false unless value.include?(k) or value.include?(k.to_s)
         end
         true
       end

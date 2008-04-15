@@ -36,8 +36,8 @@ describe JCON::Matchers do
       [1, 2].should_not conform_to_js('[Array, (int, boolean)]')
       [[1], nil].should_not conform_to_js('[Array, (int, boolean)]')
       
-      pending { {'x' => 1, 'y' => 2, 'z' => 3}.should conform_to_js('{x: float, y: float, z: float?}') }
-      #args.should conform_to_js('[[Array, (int, boolean)], {x: float, y: float, z: float?}]')
+      pending { {'x' => 1, 'y' => 2}.should conform_to_js('{x: double, y: double, z: double?}') }
+      {'x' => 1, 'y' => 2, 'z' => 3}.should conform_to_js('{x: double, y: double, z: double?}')
     end
   end
 end

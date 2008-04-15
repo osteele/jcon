@@ -129,12 +129,20 @@ describe JCON do
     it "should test structure types" do
       type = JCON::parse('{a:int, b:string}')
       type.contains?('s').should == false
+      
       type.contains?({:a => 1}).should == false
       type.contains?({:b => 's'}).should == false
       type.contains?({:a => 1, :b => 's'}).should == true
       type.contains?({:a => 's', :b => 's'}).should == false
       type.contains?({:a => 1, :b => 2}).should == false
       type.contains?({:a => 1, :b => 's', :c => false}).should == false
+      
+      type.contains?({'a' => 1}).should == false
+      type.contains?({'b' => 's'}).should == false
+      type.contains?({'a' => 1, 'b' => 's'}).should == true
+      type.contains?({'a' => 's', 'b' => 's'}).should == false
+      type.contains?({'a' => 1, 'b' => 2}).should == false
+      type.contains?({'a' => 1, 'b' => 's', :c => false}).should == false
     end
     
     it "should test null type"
