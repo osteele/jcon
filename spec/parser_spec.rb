@@ -83,6 +83,21 @@ describe JCON::Parser do
       JCON::Parser.parse("type T = /* comment */ string").definitions.length.should == 1
       JCON::Parser.parse("type T = /* multiline\ncomment */ string").definitions.length.should == 1
     end
+    
+    it "should report parse errors" do
+      lambda { JCON::Parser.parse('type') }.should raise_error("expected identifier at ''")
+      lambda { JCON::Parser.parse('type S') }.should raise_error("expected = at ''")
+      lambda { JCON::Parser.parse('[1') }.should raise_error("expected comma at ''")
+      lambda { JCON::Parser.parse('[1,,') }.should raise_error("unexpected token at ','")
+      lambda { JCON::Parser.parse('[1,]') }.should raise_error("unexpected token at ']'")
+      lambda { JCON::Parser.parse('[1]]') }.should raise_error("expected end of input at ']'")
+      lambda { JCON::Parser.parse('[1 2]') }.should raise_error("expected comma at '2]'")
+      lambda { JCON::Parser.parse('{a') }.should raise_error("expected : at ''")
+      lambda { JCON::Parser.parse('{a:') }.should raise_error("unexpected token at ''")
+      lambda { JCON::Parser.parse('{a:1') }.should raise_error("expected comma at ''")
+      lambda { JCON::Parser.parse('{a:1,') }.should raise_error("expected id at ''")
+      lambda { JCON::Parser.parse('{a:1}}') }.should raise_error("expected end of input at '}'")
+    end
   end
   
   describe :start do

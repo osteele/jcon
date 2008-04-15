@@ -12,7 +12,6 @@ Error detection:
 
 Test cases:
 * recursive types
-* parse errors
 
 Parser:
 * can property name be string?
