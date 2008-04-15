@@ -8,8 +8,9 @@ module JCON
   class Parser < StringScanner
     include Types
     
-    WS = /[\s]/
-    IGNORE = %r{//.*|/\*[.\r\n]*?\*/}
+    COMMENT = %r{//.*|/\*(?:.|[\r\n])*?\*/}
+    WS_CHAR = /[\s\r\n]/
+    IGNORE = /(?:#{COMMENT}|#{WS_CHAR})+/
     IDENTIFIER = /[\w_$][\w\d_$]*/
 
     def self.parse(source)
@@ -27,16 +28,15 @@ module JCON
       reset
       until eos?
         case
-        when sscan(/type/)
-          parse_deftype
         when skip(IGNORE)
-          ;
         when skip(/;/)
           ;
+        when scan(/type/)
+          parse_deftype
         else
           type = parse_type
           dictionary.start = type
-          while skip(WS) || skip(IGNORE) || skip(/;/); end
+          while skip(IGNORE) || skip(/;/); end
           parse_error "expected end of input" unless eos?  
         end
       end
@@ -113,12 +113,12 @@ module JCON
     end
 
     def sscan(pattern)
-      skip(WS)
+      skip(IGNORE)
       scan(pattern)
     end
 
     def parse_error(msg='unexpected token')
-      raise "#{msg} at '#{skip(WS); peek(20)}'"
+      raise "#{msg} at '#{skip(IGNORE); peek(20)}'"
     end
   end
 end

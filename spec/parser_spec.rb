@@ -72,6 +72,17 @@ describe JCON::Parser do
       dict = JCON::Parser.parse(';;string;;')
       dict.start.should be_an_instance_of(JCON::Types::SimpleType)
     end
+    
+    it "should ignore comments" do
+      JCON::Parser.parse("// comment\nstring").start.should be_an_instance_of(JCON::Types::SimpleType)
+      JCON::Parser.parse("string// comment\n").start.should be_an_instance_of(JCON::Types::SimpleType)
+      JCON::Parser.parse("string\n// comment\n").start.should be_an_instance_of(JCON::Types::SimpleType)
+      
+      JCON::Parser.parse("type T = // comment\nstring").definitions.length.should == 1
+      JCON::Parser.parse("type T = // comment\nstring").definitions.length.should == 1
+      JCON::Parser.parse("type T = /* comment */ string").definitions.length.should == 1
+      JCON::Parser.parse("type T = /* multiline\ncomment */ string").definitions.length.should == 1
+    end
   end
   
   describe :start do

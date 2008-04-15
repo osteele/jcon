@@ -4,15 +4,13 @@ Next:
 * docs
 * locate the failure
 * rename SimpleType
-* test cases for recursive types
 * detect circular references
 
 Test cases:
-* comments
+* recursive types
 * parse errors
 
 Parser:
-* comments in more positions
 * null (void?)
 * Any (*)
 * can property name be string?
