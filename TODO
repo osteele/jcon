@@ -12,7 +12,6 @@ Test cases:
 * parse errors
 
 Parser:
-* semicolons in more positions
 * comments in more positions
 * null (void?)
 * Any (*)

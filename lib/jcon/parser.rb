@@ -31,10 +31,12 @@ module JCON
           parse_deftype
         when skip(IGNORE)
           ;
+        when skip(/;/)
+          ;
         else
           type = parse_type
           dictionary.start = type
-          while skip(WS) || skip(IGNORE); end
+          while skip(WS) || skip(IGNORE) || skip(/;/); end
           parse_error "expected end of input" unless eos?  
         end
       end

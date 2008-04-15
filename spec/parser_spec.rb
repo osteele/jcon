@@ -45,6 +45,7 @@ describe JCON::Parser do
     
     it "should parse two type definitions" do
       dict = JCON::Parser.parse('type T = string; type U = String;')
+      dict.definitions.length.should == 2
       dict[:U].should be_an_instance_of(JCON::Types::SimpleType)
       dict[:T].should be_an_instance_of(JCON::Types::SimpleType)
     end
@@ -55,6 +56,21 @@ describe JCON::Parser do
       type.types.length.should == 2
       type.types[0].name.should == :string
       type.types[1].name.should == :String
+    end
+    
+    it "should ignore extraneous semicolons" do
+      dict = JCON::Parser.parse(';type T = string')
+      dict.definitions.length.should == 1
+      dict = JCON::Parser.parse(';;type T = string')
+      dict.definitions.length.should == 1
+      dict = JCON::Parser.parse('type T = string;')
+      dict.definitions.length.should == 1
+      dict = JCON::Parser.parse('type T = string;;')
+      dict.definitions.length.should == 1
+      dict = JCON::Parser.parse('type T = string;type U = String;')
+      dict.definitions.length.should == 2
+      dict = JCON::Parser.parse(';;string;;')
+      dict.start.should be_an_instance_of(JCON::Types::SimpleType)
     end
   end
   
