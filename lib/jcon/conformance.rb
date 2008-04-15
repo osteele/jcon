@@ -39,7 +39,7 @@ module JCON
       end
     end
     
-    class StructureType < Type
+    class RecordType < Type
       def contains?(value)
         return false unless value.is_a?(Hash)
         value.each do |k, v|

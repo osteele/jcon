@@ -35,9 +35,12 @@ describe JCON::Matchers do
       [].should_not conform_to_js('[Array, (int, boolean)]')
       [1, 2].should_not conform_to_js('[Array, (int, boolean)]')
       [[1], nil].should_not conform_to_js('[Array, (int, boolean)]')
-      
-      pending { {'x' => 1, 'y' => 2}.should conform_to_js('{x: double, y: double, z: double?}') }
       {'x' => 1, 'y' => 2, 'z' => 3}.should conform_to_js('{x: double, y: double, z: double?}')
+      [[[1], 2], {'x' => 1, 'y' => 2, 'z' => 3}].should conform_to_js('[[Array, (int, boolean)], {x: double, y: double, z: double?}]')
+    end
+    
+    it "should test optional properties" do
+      pending { {'x' => 1, 'y' => 2}.should conform_to_js('{x: double, y: double, z: double?}') }
     end
   end
 end

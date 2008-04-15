@@ -11,12 +11,9 @@ Test cases:
 * parse errors
 
 Parser:
-* null (void?)
-* Any (*)
 * can property name be string?
 
 Conformance:
-* Any = (null, undefined, Object)
 * byte
 
 Future:

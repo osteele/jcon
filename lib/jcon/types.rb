@@ -49,7 +49,7 @@ module JCON
       def to_s; "(#{types.join(', ')})"; end
     end
     
-    class StructureType < Type
+    class RecordType < Type
       attr_reader :properties
       def initialize(properties);
         @properties = properties

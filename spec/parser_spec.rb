@@ -33,9 +33,9 @@ describe JCON::Parser do
       type.should be_an_instance_of(JCON::Types::OptionalType)
     end
     
-    it "should parse a structure type" do
+    it "should parse a record type" do
       type = JCON::Parser.parse('type T = {a:string?, b:int}')[:T]
-      type.should be_an_instance_of(JCON::Types::StructureType)
+      type.should be_an_instance_of(JCON::Types::RecordType)
     end
     
     it "should parse a basic type definition" do

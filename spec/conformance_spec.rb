@@ -2,17 +2,24 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe JCON do
   describe :conforms? do
-    it "should test boolean types" do
-      type = JCON::parse('boolean')
+    it "should test the Any type" do
+      type = JCON::parse('*')
       type.contains?(false).should == true
-      type.contains?(true).should == true
-      type.contains?('s').should == false
-      type.contains?(nil).should == false
-      
-      type = JCON::parse('Boolean')
-      type.contains?(false).should == true
-      type.contains?(true).should == true
-      type.contains?('s').should == false
+      type.contains?(0).should == true
+      type.contains?(1).should == true
+    end
+    
+    it "should test the null type" do
+      type = JCON::parse('null')
+      type.contains?(false).should == false
+      type.contains?(0).should == false
+      type.contains?(nil).should == true
+    end
+    
+    it "should test the undefined type" do
+      type = JCON::parse('undefined')
+      type.contains?(false).should == false
+      type.contains?(0).should == false
       type.contains?(nil).should == true
     end
     
@@ -126,7 +133,7 @@ describe JCON do
       type.contains?(['s',true,3]).should == false
     end
     
-    it "should test structure types" do
+    it "should test record types" do
       type = JCON::parse('{a:int, b:string}')
       type.contains?('s').should == false
       
@@ -145,10 +152,9 @@ describe JCON do
       type.contains?({'a' => 1, 'b' => 's', :c => false}).should == false
     end
     
-    it "should test null type"
     it "should test type definitions"
     
-    it "should test unknown types" do
+    it "should raise an error when for unknown" do
       type = JCON::parse('S')
       lambda { type.contains?('s') }.should raise_error('No definition for S')
     end

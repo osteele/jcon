@@ -52,16 +52,19 @@ module JCON
     end
     
     def parse_type
+      skip(IGNORE)
       type = case
-             when id = sscan(IDENTIFIER)
+             when id = scan(IDENTIFIER)
                simple_type(id)
-             when sscan(/\[/)
+             when scan(/\*/)
+               simple_type('*')
+             when scan(/\[/)
                types = parse_types_until(/\]/)
                list(*types)
-             when sscan(/\(/)
+             when scan(/\(/)
                types = parse_types_until(/\)/)
                union(*types)
-             when sscan(/\{/)
+             when scan(/\{/)
                parse_structure_type
              else
                parse_error
@@ -103,7 +106,7 @@ module JCON
         type = parse_type
         map[name.intern] = type
       end
-      StructureType.new(map)
+      RecordType.new(map)
     end
     
     def expect(name, pattern)

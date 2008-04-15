@@ -42,6 +42,9 @@ module JCON
     end
     
     def add_builtin_definitions
+      deftype(:*) do true end
+      deftype(:null) do |x| x.nil? end
+      deftype(:undefined) do |x| x.nil? end
       deftype(:Object) do true end
       deftype(:Array)
       deftype(:Date)
@@ -50,11 +53,11 @@ module JCON
       deftype(:String)
       deftype(:Number, Numeric)
       deftype(:boolean, [false,true])
-      deftype(:string) do |value| value.is_a?(String) end
-      deftype(:int) do |value| value.is_a?(Integer) end
-      deftype(:uint) do |value| value.is_a?(Integer) and value > 0 end
-      deftype(:double) do |value| value.is_a?(Numeric) end
-      deftype(:decimal) do |value| value.is_a?(Numeric) end
+      deftype(:string) do |x| x.is_a?(String) end
+      deftype(:int) do |x| x.is_a?(Integer) end
+      deftype(:uint) do |x| x.is_a?(Integer) and x > 0 end
+      deftype(:double) do |x| x.is_a?(Numeric) end
+      deftype(:decimal) do |x| x.is_a?(Numeric) end
       deftype :AnyString, union(:string, String)
       deftype :AnyBoolean, union(:boolean, :Boolean) 
       deftype :AnyNumber, union(:byte, :int, :uint, :double, :decimal,:Number) 
