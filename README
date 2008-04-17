@@ -1,8 +1,15 @@
 = JCon -- JavaScript Type Conformance Checking
 
-Test whether a parsed JSON type conforms to a type specification, read
-from a string or file that matches the proposed ECMAScript 4.0 type
-syntax (PDF[http://www.ecmascript.org/es4/spec/overview.pdf]).
+JCON (the "JavaScript Conformance" gem), is a companion to JSON.  It
+tests JSON values against ECMAScript 4.0-style type definitions
+(PDF[http://www.ecmascript.org/es4/spec/overview.pdf]), such as
+"[string, (int, boolean), {x:double, y:double}?]". JCON also defines
+an RSpec matcher, "conforms_to_js".
+
+Use JCON together with the JavaScript
+Fu[http://osteele.com/archives/2008/04/javascript-fu-rails-plugin]
+Rails plugin to test the argument values in generated JavaScript
+function calls.
 
 
 == Install
