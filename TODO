@@ -1,10 +1,10 @@
 = JCon TODO
 
 Next:
-* docs
-* locate the failure
+* docs -- add the README
+* check the spec
+* add method to display path to mismatch
 * rename SimpleType
-* detect circular references
 
 Error detection:
 * circular references

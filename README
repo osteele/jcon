@@ -2,7 +2,8 @@
 
 Test whether a parsed JSON type conforms to a type specification, read
 from a string or file that matches the proposed ECMAScript 4.0 type
-syntax.
+syntax (PDF[http://www.ecmascript.org/es4/spec/overview.pdf]).
+
 
 == Install
 
@@ -20,9 +21,19 @@ syntax.
 
 == RSpec Matcher
 
-      1.should conform_to_js('int')
-      1.should_not conform_to_js('string')
-  
+  [1, 'xyzzy'].should conform_to_js('[int, string]')
+  [1, 2, 'xyzzy'].should_not conform_to_js('[int, string]')
+  {:x => 1}.should conform_to_js('{x: int}')
+
+Use this with the "JavaScriptFu"[http://osteele.com/archives/2008/04/javascript-fu-rails-plugin] plugin to test JSON arguments:
+
+  '<script>fn("id", {x:1, y:2}, true)</script>'.should call_js('fn') do |args|
+    args[0].should conform_to_js('string')
+    args[1].should conform_to_js('{x:int, y:int}')
+    args[2].should conform_to_js('boolean')
+    # or:
+    args.should conform_to_js('[string, {x:int, y:int}, boolean]')
+  end
 
 == License
 

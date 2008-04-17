@@ -4,12 +4,14 @@ require 'spec/rake/spectask'
 
 PKG_VERSION = '0.1'
 
+task :test => :spec
+
 Echoe.new('jcon', PKG_VERSION) do |p|
   p.summary       = "Test JSON values against a schema."
   p.url           = 'http://jcon.rubyforge.org'
   p.description    = <<-EOF
     Test JSON values for conformance with ECMAScript 4.0 types.
-EOF
+  EOF
   p.author         = 'Oliver Steele'
   p.email          = 'steele@osteele.com'
   p.ignore_pattern = /^(.git|.*#.*#)$/
