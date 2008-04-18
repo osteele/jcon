@@ -3,13 +3,12 @@
 JCON (the "JavaScript Conformance" gem), is a companion to JSON.  It
 tests JSON values against ECMAScript 4.0-style type definitions
 (PDF[http://www.ecmascript.org/es4/spec/overview.pdf]), such as
-"[string, (int, boolean), {x:double, y:double}?]". JCON also defines
-an RSpec matcher, "conforms_to_js".
+<code>string?</code>, <code>(int, boolean)</code>, or <code>[string, (int, boolean), {x:double, y:double}?]</code>.
 
-Use JCON together with the JavaScript
-Fu[http://osteele.com/archives/2008/04/javascript-fu-rails-plugin]
-Rails plugin to test the argument values in generated JavaScript
-function calls.
+JCON also defines an RSpec matcher, <code>conforms_to_js</code>.
+
+Use JCON together with the {JavaScript
+Fu Rails plugin}[http://osteele.com/archives/2008/04/javascript-fu-rails-plugin] to test the argument values in generated JavaScript function calls.
 
 
 == Install
@@ -32,7 +31,7 @@ function calls.
   [1, 2, 'xyzzy'].should_not conform_to_js('[int, string]')
   {:x => 1}.should conform_to_js('{x: int}')
 
-Use this with the "JavaScriptFu"[http://osteele.com/archives/2008/04/javascript-fu-rails-plugin] plugin to test JSON arguments:
+Use this with the {JavaScript Fu Rails plugin}[http://osteele.com/archives/2008/04/javascript-fu-rails-plugin] to test JSON arguments:
 
   '<script>fn("id", {x:1, y:2}, true)</script>'.should call_js('fn') do |args|
     args[0].should conform_to_js('string')
@@ -44,5 +43,4 @@ Use this with the "JavaScriptFu"[http://osteele.com/archives/2008/04/javascript-
 
 == License
 
-Copyright 2008 by Oliver Steele.  All rights reserved.  Released under
-the MIT License.
+Copyright 2008 by {Oliver Steele}[http://workingwithrails.com/person/12359-oliver-steele].  All rights reserved.  Released under the MIT License.
