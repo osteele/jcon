@@ -1,34 +1,28 @@
 require 'rubygems'
-require 'echoe'
 require 'spec/rake/spectask'
-
-PKG_VERSION = '0.1'
 
 task :test => :spec
 
-Echoe.new('jcon', PKG_VERSION) do |p|
-  p.summary       = "Test JSON values against a schema."
-  p.url           = 'http://jcon.rubyforge.org'
-  p.description    = <<-EOF
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |s|
+    s.name = 'jcon'
+    s.rubyforge_project = 'jcon'
+    s.summary       = "Test JSON values against a schema."
+    s.homepage       = 'http://jcon.rubyforge.org'
+    s.description    = <<-EOF
     Test JSON values for conformance with ECMAScript 4.0 types.
   EOF
-  p.author         = 'Oliver Steele'
-  p.email          = 'steele@osteele.com'
-  p.ignore_pattern = /^(.git|.*#.*#)$/
-  p.test_pattern   = 'test/*_test.rb'
-  p.rdoc_pattern   = /^(lib|bin|tasks|ext)|^README|^CHANGES|^TODO|^LICENSE$/
-  p.eval = proc do |s|
+    s.author         = 'Oliver Steele'
+    s.email          = 'steele@osteele.com'
     s.rdoc_options <<
       '--title' << "JCON: #{s.summary.sub(/.$/,'')}" <<
       '--main' << 'README' <<
       '--exclude' << 'spec/.*'
-    s.extra_rdoc_files = ['README', 'TODO', 'LICENSE']
+    s.extra_rdoc_files = ['README.rdoc', 'TODO', 'LICENSE']
   end
-end
-
-desc "Really a replacement for echoe's 'install', which bombs on my machine"
-task :reinstall => [:clean, :package, :uninstall] do
-  system "sudo gem install pkg/*.gem"
+rescue LoadError
+  puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
 
 desc "Run all specs"
